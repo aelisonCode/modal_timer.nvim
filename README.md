@@ -14,7 +14,7 @@ This plugin depends on [`aelisonCode/modal_reminder.nvim`](https://github.com/ae
 ## Installation (lazy.nvim)
 
 ```lua
-{
+return {
   "aelisonCode/modal_timer.nvim",
   dependencies = {
     "aelisonCode/modal_reminder.nvim",
