@@ -196,33 +196,40 @@ end
 
 function M.setup(opts)
 	-- load persisted state first
-	local persisted = Store.load()
+	local persisted = Store.load() -- can be nil in Option A
 
+	-- apply user opts
 	M.opts = vim.tbl_deep_extend("force", M.opts, opts or {})
-	-- merge persisted on top (so runtime persisted list wins)
-	M.opts.times = persisted.times or M.opts.times
-	M.opts.messages = persisted.messages or M.opts.messages
 
-	normalize_messages()
-
-	-- keymaps
-	local km = M.opts.keymaps
-	if km and km.enabled then
-		local map = function(lhs, rhs, desc)
-			if not lhs or lhs == "" then return end
-			vim.keymap.set("n", lhs, rhs, { silent = true, noremap = true, desc = desc })
+	-- apply persisted only if it exists and contains at least 1 time
+	if persisted
+		and type(persisted.times) == "table"
+		and #persisted.times > 0
+		then
+			M.opts.times = persisted.times
+			M.opts.messages = persisted.messages or M.opts.messages
 		end
-		map(km.start, M.start, "modal_timer: start")
-		map(km.stop, function() M.stop(true) end, "modal_timer: stop")
-		map(km.status, M.status, "modal_timer: status")
-	end
 
-	Commands.register(M)
-	if M.opts.autostart then
-		vim.schedule(function()
-			M.start()
-		end)
-	end
-end
+		normalize_messages()
 
-return M
+		-- keymaps
+		local km = M.opts.keymaps
+		if km and km.enabled then
+			local map = function(lhs, rhs, desc)
+				if not lhs or lhs == "" then return end
+				vim.keymap.set("n", lhs, rhs, { silent = true, noremap = true, desc = desc })
+			end
+			map(km.start, M.start, "modal_timer: start")
+			map(km.stop, function() M.stop(true) end, "modal_timer: stop")
+			map(km.status, M.status, "modal_timer: status")
+		end
+
+		Commands.register(M)
+
+		if M.opts.autostart then
+			vim.schedule(function()
+				M.start()
+			end)
+		end
+	end
+	return M
