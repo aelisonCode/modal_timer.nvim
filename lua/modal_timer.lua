@@ -93,7 +93,7 @@ local function seconds_until_next_time(times)
 	return best, best_index
 end
 
-function M.stop()
+function M.stop(do_notify)
 	_running = false
 
 	if _sched_timer then
@@ -101,11 +101,13 @@ function M.stop()
 		_sched_timer:close()
 		_sched_timer = nil
 	end
-	vim.notify("modal_timer: Stopped", vim.log.levels.INFO)
+	if do_notify then
+		vim.notify("modal_timer: Stopped", vim.log.levels.INFO)
+	end
 end
 
 function M.start()
-	-- M.stop()
+	M.stop(false)
 
 	if not M.opts.times or #M.opts.times == 0 then
 		vim.notify("modal_timer: no times configured", vim.log.levels.WARN)
