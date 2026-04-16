@@ -8,6 +8,7 @@ M.opts = {
 	times = {},
 	messages = { "Time to take a break!" },
 	strict = false,
+	autostart = false,
 	keymaps = {
 		enabled = true,
 		start = "<leader>ts",
@@ -217,6 +218,11 @@ function M.setup(opts)
 	end
 
 	Commands.register(M)
+	if M.opts.autostart then
+		vim.schedule(function()
+			M.start()
+		end)
+	end
 end
 
 return M
