@@ -18,7 +18,7 @@ function C.register(M)
 
 	vim.api.nvim_create_user_command("ListTimers", function()
 		M.list_timers()
-	end, { nargs = 0, desc = "modal_timer:\nlist timers" })
+	end, { nargs = 0, desc = "modal_timer: list timers" })
 end
 
 return C

@@ -191,7 +191,7 @@ function M.list_timers()
 	for i, t in ipairs(M.opts.times) do
 		lines[#lines + 1] = string.format("%2d) %s — %s", i, t, M.opts.messages[i] or "")
 	end
-	vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO, { title = "modal_timer: timers" })
+	vim.notify("\n" .. table.concat(lines, "\n"), vim.log.levels.INFO, { title = "modal_timer: timers" })
 end
 
 function M.setup(opts)
