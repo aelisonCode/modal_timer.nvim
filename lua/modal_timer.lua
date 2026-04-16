@@ -101,6 +101,7 @@ function M.stop()
 		_sched_timer:close()
 		_sched_timer = nil
 	end
+	vim.notify("modal_timer: Stopped", vim.log.levels.INFO)
 end
 
 function M.start()
@@ -131,6 +132,7 @@ function M.start()
 		-- Re-arm the one-shot timer for the next scheduled time
 		M.start()
 	end)
+	vim.notify("modal_timer: Started", vim.log.levels.INFO)
 end
 
 function M.is_active()
