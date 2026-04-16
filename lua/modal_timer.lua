@@ -105,7 +105,7 @@ function M.stop()
 end
 
 function M.start()
-	M.stop()
+	-- M.stop()
 
 	if not M.opts.times or #M.opts.times == 0 then
 		vim.notify("modal_timer: no times configured", vim.log.levels.WARN)
