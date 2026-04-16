@@ -22,6 +22,7 @@ return {
     "aelisonCode/modal_reminder.nvim",
   },
   opts = {
+    autostart = true,       -- Let the plugin start when launching nvim
     times = { "09:20" },
     messages = { "Hey, time to take a break!" },
     keymaps = {
